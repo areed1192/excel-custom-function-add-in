@@ -1,0 +1,151 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contoso Task Pane Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Office UI Fabric, visit https://developer.microsoft.com/fabric. -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css"/>
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.6.1/fabric.components.min.css">
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<!-- This is our main body class, it will have a header and a Main section. -->
+
+<body class="ms-font-m ms-welcome ms-Fabric">
+
+    <!-- Here is the header it contains an image <img> and header text <h1>. -->
+    <header class="ms-welcome__header ms-bgColor-neutralDark">
+        <img width="90" height="90" src="../../assets/sigma-filled.png" alt="The Sigma Coding icon logo."
+            title="Sigma Coding" />
+        <h1 class="ms-font-su">Sigma Coding Excel</h1>
+    </header>
+
+    <!-- This will only be seen if our Add-In didn't load correctly. -->
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+
+    <!-- 
+        This is the main body, so every thing below our header.
+        Note the `class` attribute, and `id`.
+    -->
+    <main id="app-body" class="ms-welcome__main" style="display: none;">
+
+        <!-- 
+            When organizing my structure I like to follow a grid layout.
+            Where a grid is made up of individual rows, and the rows made
+            up of individual columns.
+
+            The first line after this comment specifies our <div> will be
+            a class of `ms-grid` and has a direction of left to right `ltr`.
+        -->
+        <div class="ms-Grid" dir="ltr">
+
+            <div class="ms-Grid-row" id="grid_overview_header_row">
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <h3 id="overview_header">Overview</h3>
+                </div>
+            </div>
+
+            <!-- A grid has rows, this is the first row of our grid. -->
+            <div class="ms-Grid-row">
+
+                <!-- 
+                    A row is made up individual columns `ms-Grid-col`. A few things 
+                    to note here, each column can dynamically size depending on the 
+                    screen they are displayed in. That's why you see the following:
+
+                    1. ms-sm6 = For the "small view", set it to a length of 6.
+                    2. ms-md4 = For the "medium view", set it to a length of 4.
+                    3. ms-lg2 = For the "large view", set it to a length of 2.
+
+                    Additionally, notice that if you go down vertically through each
+                    column that the sum of each column, for any given size, always equals
+                    12. IT ALWAYS HAS TO EQUAL 12.
+
+                -->
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12" id="grid-welcome-column">
+                    <p class="ms-fontColor-themeNeutral">
+                        Welcome to the Sigma Coding add-in, with this add-in you
+                        can use custom functions to unpivot data, split text, and
+                        make an API call.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <button type="button" class="ms-Button ms-Button--standard">
+                        <span class="ms-Button-label">Create Account</span>
+                    </button>
+                </div>
+            </div>
+            
+
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <h3>Unpivot Function</h3>
+                </div>
+            </div>
+
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <p class="ms-fontColor-themeNeutral">
+                        Often, we want our data in a normalized fashion because it allows
+                        for quick calcualtion, efficent storage, and easy manipulation. However, Excel
+                        doesn't offer an easy to unpivot your data. With the `unpivot` function we can
+                        unpivot data instantyl.
+                    </p>
+                </div>
+            </div>
+
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-sm12 ms-md12 ms-lg12">
+                    <button class="ms-Button ms-Button--standard">
+                        <span class="ms-Button-label">Create Account</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- <h2 class="ms-font-xl"> Discover what Office Add-ins can do for you today! </h2> -->
+
+        <ul class="ms-List ms-welcome__features">
+            <li class="ms-ListItem">
+                <i class="ms-Icon ms-Icon--Ribbon ms-font-xl"></i>
+                <span class="ms-font-m">Achieve more with Office integration</span>
+            </li>
+            <li class="ms-ListItem">
+                <i class="ms-Icon ms-Icon--Unlock ms-font-xl"></i>
+                <span class="ms-font-m">Unlock features and functionality</span>
+            </li>
+            <li class="ms-ListItem">
+                <i class="ms-Icon ms-Icon--Design ms-font-xl"></i>
+                <span class="ms-font-m">Create and visualize like a pro</span>
+            </li>
+        </ul>
+        <p class="ms-font-l">Modify the source files, then click <b>Run</b>.</p>
+        <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
+            <span class="ms-Button-label">Run</span>
+        </div>
+    </main>
+</body>
+
+</html>

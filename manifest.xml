@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- 
+  
+  If you ever want to see all the possible values you can set in a Manifest file, then please go to the following link:
+
+  https://docs.microsoft.com/en-us/office/dev/add-ins/reference/javascript-api-for-office
+  https://docs.microsoft.com/en-us/office/dev/add-ins/reference/manifest/allowsnapshot
+
+  What's so important about the Mainfest file?
+  _____________________________________________
+
+  When you create a new add-in you need to be able to describe your add-in so that Microsoft Office knows how it should be activated, or in other words "started up". The 
+  manifest file does just that, it describes your add-in, how "office needs to activate it", how this add-in will integrate into the exisiting UI (User Interface) like the Ribbon,
+  declare permissions that your add-in requires for example being able to read or write to the document, and for some specific applications, like Outlook, it will specify
+  how it will interact with certain items in the application, for example messages.
+
+  I like to think of the manifest as a "installation contract", it's basically my way of telling Microsoft Office and the user all the things I want to have happen so that my 
+  add-in can run. It's also my opportunity to provide additional resources to my user (like help URLs), create a unique expierence like a customized ribbon, and a way to ask
+  for permission from the user to offer certain functionality.
+
+  The XML manifest file of an Office Add-in describes how your add-in should be activated when an end user installs and uses it with Office documents and applications.
+  An XML manifest file based on this schema enables an Office Add-in to do the following:
+
+    - Describe itself by providing an ID, version, description, display name, and default locale.
+    - Specify the images used for branding the add-in and iconography used for add-in commands in the Office Ribbon.
+    - Specify how the add-in integrates with Office, including any custom UI, such as ribbon buttons the add-in creates.
+    - Specify the requested default dimensions for content add-ins, and requested height for Outlook add-ins.
+    - Declare permissions that the Office Add-in requires, such as reading or writing to the document.
+    - For Outlook add-ins, define the rule or rules that specify the context in which they will be activated and interact with a message, appointment, or meeting request item.
+
+
+  The root element in the manifest of an Office Add-in is the <OfficeApp> element.
+
+  xmlns:
+  _____
+  Defines the Office Add-in manifest namespace and schema version. This attribute should always be set to "http://schemas.microsoft.com/office/appforoffice/1.1"
+
+  xmlns:xsi:
+  ___________
+  Defines the XMLSchema instance. This attribute should always be set to "http://www.w3.org/2001/XMLSchema-instance"
+
+  xmlns:bt
+  _________
+  Defines the Basic Types?
+
+  xmlns:ov
+  _________
+  Defines the Version Overrides?
+
+  xsi:type
+  _________
+  Defines the kind of Office Add-in. This attribute should be set to one of: "ContentApp", "MailApp", or "TaskPaneApp"
+
+-->
+
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+
+  <!-- Every Add-in has a unique ID that speicifes it. The ID element specifies the unique ID of your Office Add-in as a GUID. -->  
+  <Id>a963b4a9-15fa-4d1e-8bad-8c03c6027ad7</Id>
+
+  <!-- Your add-in can have multiple versions, the Version element let's office know what version this add-in is. -->
+  <Version>1.0.0.0</Version>
+
+  <!-- 
+    Specifies the name of the individual or company that developed this Office Add-in as a string of 
+    no more than 125 characters. In this case, Sigma Coding (ME) is the provider
+  -->
+  <ProviderName>Sigma Coding</ProviderName>
+
+  <!-- 
+      Specifies the default culture name of the locale used by strings in your add-in. 
+      In this case, I want it to be English. If I want my add-in to be "multi-language", I could
+      change this to adapt to the User's Local Languae.
+  -->
+  <DefaultLocale>en-US</DefaultLocale>
+
+  <!-- The Display name is what you see when the add-in loads. I want mine to say "Sigma Coding" -->
+  <DisplayName DefaultValue="Sigma Coding"/>
+
+  <!-- My Add-in can have a description or a summary of what it does. We use the Description tag to "describe" our add-in. -->
+  <Description DefaultValue="The Sigma Coding Excel Add In is used to access functionality developed by Sigma Coding."/>
+
+  <!-- You have a brand, so advertise it! Here we can define an Icon that represents our brand or really anything when our add-in loads. -->
+  <IconUrl DefaultValue="https://localhost:3000/assets/sigma-icon-32.png"/>
+
+  <!-- Icons can come in different resolutions, for high resolution icons you specify a different Icon. -->
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/sigma-icon-80.png"/>
+
+  <!-- If you have a support URL, you can provide it in the add-in, right now all I'm doing is pointing people to my Github repo. -->
+  <SupportUrl DefaultValue="https://github.com/areed1192/sigma_coding_youtube"/>
+
+  <!-- 
+    Lists any domains in addition to the domain specified in the SourceLocation 
+    element that your Office Add-in will use to load pages. It also lists trusted 
+    domains from which Office.js API calls can be made from IFrames within the 
+    add-in. For each additional domain, specify an AppDomain element.
+  -->
+  <AppDomains>
+    <AppDomain>https://sigma-coding.com</AppDomain>
+  </AppDomains>
+
+  <!-- 
+    Specifies the Office client application where the Office Add-in will activate. 
+    Contains a collection of Host elements and their settings. When included in the VersionOverrides node, 
+    this element overrides the Hosts element in the parent portion of the manifest.
+  -->
+  <Hosts>
+    <!-- 
+      Specifies an individual Office application type where the add-in should activate. Use the name attribute to
+      determine the host type. The value must be one of the following:
+
+      - Document (Word)
+      - Database (Access)
+      - Mailbox (Outlook)
+      - Notebook (OneNote)
+      - Presentation (PowerPoint)
+      - Project (Project)
+      - Workbook (Excel)
+    
+      My Project is an Excel Add-In so I want my host to be a "Workbook".
+    -->
+    <Host Name="Workbook"/>
+  </Hosts>
+
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="CustomFunctionsRuntime" MinVersion="1.1"/>
+    </Sets>
+  </Requirements>
+
+  <!-- 
+    Specifies the source file location(s) for your Office Add-in as a URL between 1 and 2018 characters long. 
+    The source location must be an HTTPS address, not a file path.
+
+    I define the "structure" of my add-in using an HTML file. The HTML file I created is called "taskpane.html", so 
+    I want Office to read that file so that it knows how the layout of my add-in will look.
+  -->
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+  </DefaultSettings>
+
+  <!-- 
+    Specifies the level of API access for your Office Add-in; you should request permissions based on the principle of least privilege. Possible values are:
+
+     - Restricted
+     - ReadDocument
+     - ReadAllDocument
+     - WriteDocument 
+     - ReadWriteDocument
+    
+    To understand the finer details of permissions go to the following link:
+    https://docs.microsoft.com/en-us/office/dev/add-ins/develop/requesting-permissions-for-api-use-in-content-and-task-pane-add-ins
+
+  -->
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Workbook">
+
+        <AllFormFactors>
+          <ExtensionPoint xsi:type="CustomFunctions">
+            <Script>
+              <SourceLocation resid="Functions.Script.Url"/>
+            </Script>
+            <Page>
+              <SourceLocation resid="Functions.Page.Url"/>
+            </Page>
+            <Metadata>
+              <SourceLocation resid="Functions.Metadata.Url"/>
+            </Metadata>
+            <Namespace resid="Functions.Namespace"/>
+          </ExtensionPoint>
+        </AllFormFactors>
+
+        <DesktopFormFactor>
+
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+
+          <FunctionFile resid="Commands.Url"/>
+
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+
+            <!-- Let's Create a Custom Tab inside the Excel Ribbon. -->
+            <CustomTab id="Sigma.Tab">
+
+              <!-- That custom tab will have one Group. -->
+              <Group id="Sigma.Tab1.Group1">
+
+                <!-- That Group will have a label that is identified by the ID "Sigma.Tab1.GroupLabel". resid must point to a ShortString resource -->
+                <Label resid="Sigma.Tab1.GroupLabel" />
+
+                <Icon>
+                  <!-- Each size needs its own icon resource or it will look distorted when resized -->
+                  <!-- Icons. Required sizes 16,31,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX -->
+                  <!-- Use PNG icons and remember that all URLs on the resources section must use HTTPS -->
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+
+                <!-- Let's add a Control to our Tab that belongs to "Group 1" -->
+                <Control xsi:type="Button" id="Sigma.TaskpaneButton">
+
+                  <!-- Let's also make sure our button has a label. -->
+                  <Label resid="Sigma.TaskpaneButton.Label" />
+
+                  <!-- A button can have something called a Supertip, basically it's what we see when we hover over the button. -->
+                  <Supertip>
+
+                    <!-- A Supertip can have a label. -->
+                    <Title resid="Sigma.TaskpaneButton.Label" />
+
+                    <!-- And a description about what my button does -->
+                    <Description resid="Sigma.TaskpaneButton.Tooltip" />
+
+                  </Supertip>
+
+                  <!-- My Button should have an Icon -->
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+
+                  <!-- 
+
+                    ACTION:
+
+                    I Also want my button to have an Action, something that happens when I click it.
+                    Supported actions are ExecuteFuncion (Run a function I define in my add-in) or ShowTaskpane (Show the new taskpane I've made)
+                    Look at the FunctionFile.html page for reference on how to implement the function 
+
+                    Let's have it show the taskpane 
+                  -->
+                  <Action xsi:type="ShowTaskpane">
+
+                    <!-- My taskpane needs and ID. -->
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+
+                    <!-- 
+                         Microsoft's Notes:
+                         Provide a url resource id for the location that will be displayed on the task pane 
+
+                         Alex's Notes:
+                         This is CRUCIAL where is "What I want to show" located? Right now I'm just creating an ID 
+                         that I'll define down below to point to a single file. IF YOU DO NOT SPECIFY THIS CORRECTLY
+                         THE ADD-IN WILL NOT LOAD CORRECTLY!
+                     -->
+                    <SourceLocation resid="Taskpane.Url" />
+
+                  </Action>
+                </Control>
+              </Group>
+
+              <!-- Finally, I want my tab to have a label. -->
+              <Label resid="Sigma.Tab.TabLabel" />
+
+            </CustomTab>
+
+            <!-- <OfficeTab id="TabHome">
+
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButton.Label"/>
+                  <Supertip>
+                    <Title resid="TaskpaneButton.Label"/>
+                    <Description resid="TaskpaneButton.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab> -->
+
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+
+      <!-- This add-in uses some images, so we need to define where those images are. Also it's probably best to give them an ID so we can easily identify them. -->
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/sigma-transparent-icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/sigma-transparent-icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/sigma-transparent-icon-80.png"/>
+      </bt:Images>
+
+      <!-- Some logic here, but now we are talking about URLs. The URLs point to the actual files that contain our code. -->
+      <bt:Urls>
+        <bt:Url id="Functions.Script.Url" DefaultValue="https://localhost:3000/dist/functions.js"/>
+        <bt:Url id="Functions.Metadata.Url" DefaultValue="https://localhost:3000/dist/functions.json"/>
+        <bt:Url id="Functions.Page.Url" DefaultValue="https://localhost:3000/dist/functions.html"/>
+
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
+      </bt:Urls>
+
+      <!-- 
+        This section contains our `ShortStrings` these are small pieces of text that will be used in the Add-In and can represent button labels or even titles.
+        Short Strings range from 1 character to 125 characters.
+      -->
+      <bt:ShortStrings>
+        <bt:String id="Functions.Namespace" DefaultValue="SIGMA"/>
+        <bt:String id="GetStarted.Title" DefaultValue="Get started with your sample add-in!"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Commands Group"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane"/>
+
+        <bt:String id="Sigma.Tab.TabLabel" DefaultValue="Sigma Coding"/>
+        <bt:String id="Sigma.Tab1.GroupLabel" DefaultValue="Commands Group Sigma"/>
+        <bt:String id="Sigma.TaskpaneButton.Label" DefaultValue="Show Taskpane"/>
+      </bt:ShortStrings>
+
+      <!-- 
+        Sometimes we need more than 125 characters, so there are also `LongStrings`. These type of strings do the same thing but can hold more characters.
+        Short Strings range from 1 character to 250 characters.
+      -->
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Your sample add-in loaded succesfully. Go to the HOME tab and click the 'Show Taskpane' button to get started."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Click to Show a Taskpane"/>
+        <bt:String id="Sigma.TaskpaneButton.Tooltip" DefaultValue="Click to Show a Taskpane"/>
+      </bt:LongStrings>
+
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
