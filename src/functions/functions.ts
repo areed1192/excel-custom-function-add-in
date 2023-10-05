@@ -72,7 +72,7 @@ export function logMessage(message: string): string {
  * @param values The range of cells that represent your range of values.
  * @returns  The normalized range of cells.
  */
-export function unpivot(headers: string[], rows: string[], values: string[][]): string[][] {
+export function unpivot(headers: any[], rows: any[], values: any[][]): any[][] {
   
   let unpivot_data = [];
   
